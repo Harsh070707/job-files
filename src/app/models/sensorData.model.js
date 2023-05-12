@@ -29,4 +29,4 @@ sensorDataSchema.index({ loc: '2dsphere' });
 
 const sensorDataModel = mongoose.model('sensorData', sensorDataSchema);
 
-export default sensorDataModel;
+module.exports = sensorDataModel;
