@@ -4,8 +4,8 @@
   "description": "job-files",
   "main": "./src/index.js",
   "scripts": {
-    "start": " nodemon  src/index.js --exec babel-node --presets env,stage-2",
-    "build": " npm run clean:dist && babel src -d dist",
+    "start": "nodemon  src/index.js --exec babel-node --presets env,stage-2",
+    "build": "npm run clean:dist && babel src -d dist",
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean:dist": "shx rm -rf ./dist",
     "serve": "cross-env NODE_ENV=production node dist/index.js",
