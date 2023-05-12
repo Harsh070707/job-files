@@ -22,7 +22,7 @@ exports.connect = (envConfig, env) => {
   }
   mongoose
     .connect(envConfig.mongoUri, {
-      // useNewUrlParser: true,
+      useNewUrlParser: true,
       // useUnifiedTopology: true,
       // useCreateIndex: true
     })
