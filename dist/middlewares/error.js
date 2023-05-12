@@ -1,19 +1,8 @@
 'use strict';
 
-var _httpStatus = require('http-status');
-
-var _httpStatus2 = _interopRequireDefault(_httpStatus);
-
-var _APIError = require('../utils/APIError');
-
-var _APIError2 = _interopRequireDefault(_APIError);
-
-var _environment = require('../../environment');
-
-var _environment2 = _interopRequireDefault(_environment);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+var httpStatus = require('http-status');
+var APIError = require('../utils/APIError');
+var environment = require('../../environment');
 var env = process.env.NODE_ENV;
 
 /**
@@ -21,19 +10,19 @@ var env = process.env.NODE_ENV;
  * @public
  */
 var handler = function handler(err, req, res, next) {
-    var response = {
-        code: err.status,
-        message: err.message || _httpStatus2.default[err.status],
-        errors: err.errors,
-        stack: err.stack
-    };
+  var response = {
+    code: err.status,
+    message: err.message || httpStatus[err.status],
+    errors: err.errors,
+    stack: err.stack
+  };
 
-    if (env !== 'development') {
-        delete response.stack;
-    }
-    res.status(err.status);
-    res.json(response);
-    res.end();
+  if (env !== 'development') {
+    delete response.stack;
+  }
+  res.status(err.status);
+  res.json(response);
+  res.end();
 };
 exports.handler = handler;
 
@@ -42,15 +31,14 @@ exports.handler = handler;
  * @public
  */
 exports.converter = function (err, req, res, next) {
+  var convertedError = new APIError({
+    message: err.message || 'Something went wrong',
+    status: err.status,
+    stack: err.stack,
+    errors: err.errors || []
+  });
 
-    var convertedError = new _APIError2.default({
-        message: err.message || 'Something went wrong',
-        status: err.status,
-        stack: err.stack,
-        errors: err.errors || []
-    });
-
-    return handler(convertedError, req, res);
+  return handler(convertedError, req, res);
 };
 
 /**
@@ -58,9 +46,9 @@ exports.converter = function (err, req, res, next) {
  * @public
  */
 exports.notFound = function (req, res, next) {
-    var err = new _APIError2.default({
-        message: 'Not found',
-        status: _httpStatus2.default.NOT_FOUND
-    });
-    return handler(err, req, res);
+  var err = new APIError({
+    message: 'Not found',
+    status: httpStatus.NOT_FOUND
+  });
+  return handler(err, req, res);
 };

@@ -1,21 +1,13 @@
 'use strict';
 
-var _mqtt = require('mqtt');
-
-var _mqtt2 = _interopRequireDefault(_mqtt);
-
-var _sensorData = require('../app/models/sensorData.model');
-
-var _sensorData2 = _interopRequireDefault(_sensorData);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+var mqtt = require('mqtt');
+var sensorDataModel = require('../app/models/sensorData.model');
 var options = {
   // clientId: 'dharmesh',
   // Username: 'cedalo',
   // Password: '0dfTYEF90nAd9kNK8IEr'
 };
-var client = _mqtt2.default.connect('mqtt://test.mosquitto.org', options);
+var client = mqtt.connect('mqtt://test.mosquitto.org', options);
 
 client.on('connect', function () {
   console.log('Connection established successfully!');
@@ -35,7 +27,7 @@ client.on('message', function (topic, data) {
     console.log('topic :', topic);
     console.log('data', JSON.parse(data));
     var topicData = JSON.parse(data);
-    _sensorData2.default.updateOne({ userId: topicData.user }, {
+    sensorDataModel.updateOne({ userId: topicData.user }, {
       sensorId: topic,
       location: {
         coordinates: [topicData.long, topicData.lati]

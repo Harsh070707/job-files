@@ -1,18 +1,16 @@
 'use strict';
 
-var _express = require('express');
+// import { Router } from 'express';
+var _require = require('express'),
+    Router = _require.Router;
 
-var _sensorData = require('../controllers/sensorData.controller');
+var router = Router();
 
-var _sensorData2 = _interopRequireDefault(_sensorData);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var router = (0, _express.Router)();
-
+// const router = Router();
+var sensorController = require('../controllers/sensorData.controller');
 
 // router.use('/material-types', materialTypesRoutes);
 
-router.get('/sensorData', _sensorData2.default.get);
+router.get('/sensorData', sensorController.getData);
 
 module.exports = router;

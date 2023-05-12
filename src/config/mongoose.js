@@ -21,11 +21,14 @@ exports.connect = (envConfig, env) => {
     mongoose.set('debug', true);
   }
   mongoose
-    .connect(envConfig.mongoUri, {
-      useNewUrlParser: true,
-      // useUnifiedTopology: true,
-      // useCreateIndex: true
-    })
+    .connect(
+      'mongodb+srv://root:root@cluster0.htlgenf.mongodb.net/blog?retryWrites=true&w=majority',
+      {
+        useNewUrlParser: true,
+        // useUnifiedTopology: true,
+        // useCreateIndex: true
+      }
+    )
     .then(() => console.log('Database connected!'));
   return mongoose.connection;
 };

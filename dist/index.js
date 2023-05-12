@@ -1,56 +1,25 @@
 'use strict';
 
-var _express = require('express');
-
-var _express2 = _interopRequireDefault(_express);
-
-var _bodyParser = require('body-parser');
-
-var _bodyParser2 = _interopRequireDefault(_bodyParser);
-
-var _morgan = require('morgan');
-
-var _morgan2 = _interopRequireDefault(_morgan);
-
-var _environment = require('../environment');
-
-var _environment2 = _interopRequireDefault(_environment);
-
-var _mongoose = require('./config/mongoose');
-
-var _mongoose2 = _interopRequireDefault(_mongoose);
-
-var _error = require('./middlewares/error');
-
-var _error2 = _interopRequireDefault(_error);
-
-var _routes = require('./app/routes/');
-
-var _routes2 = _interopRequireDefault(_routes);
-
-var _path = require('path');
-
-var _path2 = _interopRequireDefault(_path);
-
-var _mqtt = require('./utils/mqtt');
-
-var _mqtt2 = _interopRequireDefault(_mqtt);
-
-var _sensorData = require('./app/models/sensorData.model');
-
-var _sensorData2 = _interopRequireDefault(_sensorData);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// require('./config/user.passport')(passport);
 // import 'babel-polyfill';
+
+var express = require('express');
+var bodyParser = require('body-parser');
+var morgan = require('morgan');
+// const cors= require( 'cors');
+var environment = require('../environment');
+var mongoose = require('./config/mongoose');
+var error = require('./middlewares/error');
+var routes = require('./app/routes/');
+var path = require('path');
+// require('./config/user.passport')(passport));
+var mqtt = require('./utils/mqtt');
+var sensorDataModel = require('./app/models/sensorData.model');
+
 var cors = require('cors');
 // getting application environment
-
-// import cors from 'cors';
 var env = process.env.NODE_ENV;
 // getting application config based on environment
-var envConfig = _environment2.default[env];
+var envConfig = environment[env];
 
 // setting port value
 var PORT = envConfig.port || 3000;
@@ -58,7 +27,7 @@ var PORT = envConfig.port || 3000;
  * Express instance
  * @public
  */
-var app = (0, _express2.default)();
+var app = express();
 
 // Custom middleware to redirect HTTP to HTTPS
 // app.use((req, res, next) => {
@@ -89,22 +58,22 @@ if (!global.Response) global.Response = require('./utils/responce');
 if (!global.config) global.config = require('./config/config');
 
 // open mongoose connection
-_mongoose2.default.connect(envConfig, env);
+mongoose.connect(envConfig, env);
 
 // request logging. dev: console | production: file
-app.use((0, _morgan2.default)(envConfig.logs));
+app.use(morgan(envConfig.logs));
 
-app.use(_bodyParser2.default.json({
+app.use(bodyParser.json({
   limit: '50mb'
 }));
 
-app.use(_bodyParser2.default.urlencoded({
+app.use(bodyParser.urlencoded({
   limit: '50mb',
   extended: true
 }));
 
 // app.use(bodyParser.multipart());
-app.use(_express2.default.static(_path2.default.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // CORS configuration
 // app.use(cors({ 'origin': '*' }));
@@ -115,15 +84,15 @@ app.get('/check123', function (req, res) {
 });
 
 // mount api routes
-app.use('/', _routes2.default);
+app.use('/', routes);
 // if error is not an instanceOf APIError, convert it.
-app.use(_error2.default.converter);
+app.use(error.converter);
 // app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerJson));
 // catch 404 and forward to error handler
-app.use(_error2.default.notFound);
+app.use(error.notFound);
 
 // error handler, send stacktrace only during development
-app.use(_error2.default.handler);
+app.use(error.handler);
 //
 // app.use(passport.initialize());
 
