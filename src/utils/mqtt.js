@@ -1,5 +1,5 @@
-import mqtt from 'mqtt';
-import sensorDataModel from '../app/models/sensorData.model';
+const mqtt = require('mqtt');
+const sensorDataModel = require('../app/models/sensorData.model');
 const options = {
   // clientId: 'dharmesh',
   // Username: 'cedalo',

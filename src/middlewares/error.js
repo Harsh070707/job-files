@@ -1,6 +1,6 @@
-import httpStatus from 'http-status';
-import APIError from '../utils/APIError';
-import environment from '../../environment';
+const httpStatus = require('http-status');
+const APIError = require('../utils/APIError');
+const environment = require('../../environment');
 const env = process.env.NODE_ENV;
 
 /**
@@ -8,19 +8,19 @@ const env = process.env.NODE_ENV;
  * @public
  */
 const handler = (err, req, res, next) => {
-    const response = {
-        code: err.status,
-        message: err.message || httpStatus[err.status],
-        errors: err.errors,
-        stack: err.stack,
-    };
+  const response = {
+    code: err.status,
+    message: err.message || httpStatus[err.status],
+    errors: err.errors,
+    stack: err.stack,
+  };
 
-    if (env !== 'development') {
-        delete response.stack;
-    }
-    res.status(err.status);
-    res.json(response);
-    res.end();
+  if (env !== 'development') {
+    delete response.stack;
+  }
+  res.status(err.status);
+  res.json(response);
+  res.end();
 };
 exports.handler = handler;
 
@@ -29,15 +29,14 @@ exports.handler = handler;
  * @public
  */
 exports.converter = (err, req, res, next) => {
+  let convertedError = new APIError({
+    message: err.message || 'Something went wrong',
+    status: err.status,
+    stack: err.stack,
+    errors: err.errors || [],
+  });
 
-    let convertedError = new APIError({
-        message: err.message || 'Something went wrong',
-        status: err.status,
-        stack: err.stack,
-        errors: err.errors || []
-    });
-
-    return handler(convertedError, req, res);
+  return handler(convertedError, req, res);
 };
 
 /**
@@ -45,9 +44,9 @@ exports.converter = (err, req, res, next) => {
  * @public
  */
 exports.notFound = (req, res, next) => {
-    const err = new APIError({
-        message: 'Not found',
-        status: httpStatus.NOT_FOUND,
-    });
-    return handler(err, req, res);
+  const err = new APIError({
+    message: 'Not found',
+    status: httpStatus.NOT_FOUND,
+  });
+  return handler(err, req, res);
 };

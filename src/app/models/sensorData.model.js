@@ -1,5 +1,5 @@
-import mongoose from 'mongoose';
-import timestamps from 'mongoose-timestamp';
+const mongoose = require('mongoose');
+const timestamps = require('mongoose-timestamp');
 
 const sensorDataSchema = new mongoose.Schema(
   {

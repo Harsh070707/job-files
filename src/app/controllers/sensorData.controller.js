@@ -1,4 +1,4 @@
-import sensorDataModel from '../models/sensorData.model';
+const sensorDataModel = require('../models/sensorData.model');
 
 export default class sensorController {
   static async get(req, res) {

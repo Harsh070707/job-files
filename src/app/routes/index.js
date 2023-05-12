@@ -1,12 +1,14 @@
-import {
-    Router
-} from 'express';
+// import {
+//     Router
+// } from 'express';
+
+const { Router } = require('express');
 
 const router = Router();
-import sensorController from '../controllers/sensorData.controller';
+const sensorController = require('../controllers/sensorData.controller');
 
 // router.use('/material-types', materialTypesRoutes);
 
-router.get('/sensorData', sensorController.get);
+router.get('/sensorData', () => sensorController.get);
 
 module.exports = router;
