@@ -1,16 +1,17 @@
 // import 'babel-polyfill';
-import express from 'express';
-import bodyParser from 'body-parser';
-import morgan from 'morgan';
-// import cors from 'cors';
-import environment from '../environment';
-import mongoose from './config/mongoose';
-import error from './middlewares/error';
-import routes from './app/routes/';
-import path from 'path';
-// require('./config/user.passport')(passport);
-import mqtt from './utils/mqtt';
-import sensorDataModel from './app/models/sensorData.model';
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+// const cors= require( 'cors');
+const environment = require('../environment');
+const mongoose = require('./config/mongoose');
+const error = require('./middlewares/error');
+const routes = require('./app/routes/');
+const path = require('path');
+// require('./config/user.passport')(passport));
+const mqtt = require('./utils/mqtt');
+const sensorDataModel = require('./app/models/sensorData.model');
 
 const cors = require('cors');
 // getting application environment
