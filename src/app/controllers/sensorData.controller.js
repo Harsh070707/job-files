@@ -80,7 +80,6 @@ module.exports.postData = async (req, res) => {
               Response.sendResponse(
                 status_codes.OK,
                 'Data inserted or updated successfully!',
-                data,
                 []
               )
             );
