@@ -62,16 +62,28 @@ module.exports.postData = async (req, res) => {
       (err) => {
         if (err) {
           console.log('Error: ', err);
+          res
+            .status(status_codes.INTERNAL_SERVER_ERROR)
+            .send(
+              Response.sendResponse(
+                status_codes.INTERNAL_SERVER_ERROR,
+                'Internal server error',
+                [],
+                err
+              )
+            );
         } else {
-          res.status(status_codes.OK).send(
-            Response.sendResponse(
-              status_codes.OK,
-              'Data inserted or updated successfully!',
-
-              data,
-              []
-            )
-          );
+          console.log('Data inserted or updated successfully!');
+          res
+            .status(status_codes.OK)
+            .send(
+              Response.sendResponse(
+                status_codes.OK,
+                'Data inserted or updated successfully!',
+                data,
+                []
+              )
+            );
         }
       }
     );
