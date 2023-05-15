@@ -43,3 +43,49 @@ module.exports.getData = async (req, res) => {
       );
   }
 };
+
+module.exports.postData = async (req, res) => {
+  try {
+    console.log(212121231232123);
+    const { userId, latitude, longitude } = req.body;
+
+    const data = await sensorDataModel.updateOne(
+      { userId: userId },
+      {
+        sensorId: 'sensor/1',
+        location: {
+          coordinates: [longitude, latitude],
+        },
+        userId: userId,
+      },
+      { upsert: true },
+      (err) => {
+        if (err) {
+          console.log('Error: ', err);
+        } else {
+          res.status(status_codes.OK).send(
+            Response.sendResponse(
+              status_codes.OK,
+              'Data inserted or updated successfully!',
+
+              data,
+              []
+            )
+          );
+        }
+      }
+    );
+  } catch (err) {
+    console.log('Error :-', err);
+    res
+      .status(status_codes.INTERNAL_SERVER_ERROR)
+      .send(
+        Response.sendResponse(
+          status_codes.INTERNAL_SERVER_ERROR,
+          'Internal server error ',
+          [],
+          err
+        )
+      );
+  }
+};

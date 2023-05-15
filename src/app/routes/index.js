@@ -8,5 +8,6 @@ const sensorController = require('../controllers/sensorData.controller');
 // router.use('/material-types', materialTypesRoutes);
 
 router.get('/sensorData', sensorController.getData);
+router.post('/receivedLocation', sensorController.postData);
 
 module.exports = router;
