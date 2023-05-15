@@ -7,6 +7,10 @@ const sensorDataSchema = new mongoose.Schema(
 
     userId: String,
 
+    userName: String,
+
+    mobile: String,
+
     location: {
       type: {
         type: String,
