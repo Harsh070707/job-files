@@ -59,7 +59,7 @@ module.exports.postData = async (req, res) => {
         userId: userId,
         userName: userName,
         mobile: mobile,
-        currentDate: currentDate,
+        currentDate: new Date(),
       },
       { upsert: true },
       (err) => {
