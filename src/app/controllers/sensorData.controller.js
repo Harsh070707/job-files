@@ -46,7 +46,8 @@ module.exports.getData = async (req, res) => {
 
 module.exports.postData = async (req, res) => {
   try {
-    const { userId, userName, mobile, latitude, longitude } = req.body;
+    const { userId, userName, mobile, latitude, longitude, currentDate } =
+      req.body;
 
     const data = await sensorDataModel.updateOne(
       { userId: userId },
@@ -58,6 +59,7 @@ module.exports.postData = async (req, res) => {
         userId: userId,
         userName: userName,
         mobile: mobile,
+        currentDate: currentDate,
       },
       { upsert: true },
       (err) => {

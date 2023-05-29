@@ -11,6 +11,8 @@ const sensorDataSchema = new mongoose.Schema(
 
     mobile: String,
 
+    currentDate: String,
+
     location: {
       type: {
         type: String,
