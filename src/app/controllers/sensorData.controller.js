@@ -46,20 +46,20 @@ module.exports.getData = async (req, res) => {
 
 module.exports.postData = async (req, res) => {
   try {
-    const { userId, userName, mobile, latitude, longitude, currentDate } =
-      req.body;
+    const { userId, userName, mobile, latitude, longitude } = req.body;
 
     const data = await sensorDataModel.updateOne(
       { userId: userId },
       {
-        sensorId: 'sensor/1',
-        location: {
-          coordinates: [longitude, latitude],
+        $set: {
+          sensorId: 'sensor/1',
+          location: {
+            coordinates: [longitude, latitude],
+          },
+          userName: userName,
+          mobile: mobile,
+          currentDate: new Date(),
         },
-        userId: userId,
-        userName: userName,
-        mobile: mobile,
-        currentDate: new Date(),
       },
       { upsert: true },
       (err) => {
