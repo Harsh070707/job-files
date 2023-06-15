@@ -9,5 +9,6 @@ const sensorController = require('../controllers/sensorData.controller');
 
 router.get('/sensorData', sensorController.getData);
 router.post('/receivedLocation', sensorController.postData);
+router.get('/receivedIndividualLocation', sensorController.getIndividualData);
 
 module.exports = router;
