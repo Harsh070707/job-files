@@ -110,23 +110,23 @@ module.exports.postData = async (req, res) => {
 module.exports.getIndividualData = async (req, res) => {
   const { userId } = req.body;
 
-  const options = {
-    host: 'e7b542b57fdc42a1bc7824cb068164f2.s2.eu.hivemq.cloud',
-    port: 8883,
-    protocol: 'mqtts',
-    username: 'harsh.bansal110@gmail.com',
-    password: 'spqJnmmbSUTPB4!',
-  };
-
   // const options = {
-  //   clientId: 'dharmesh',
-  //   Username: 'cedalo',
-  //   Password: '0dfTYEF90nAd9kNK8IEr',
+  //   host: 'e7b542b57fdc42a1bc7824cb068164f2.s2.eu.hivemq.cloud',
+  //   port: 8883,
+  //   protocol: 'mqtts',
+  //   username: 'harsh.bansal110@gmail.com',
+  //   password: 'spqJnmmbSUTPB4!',
   // };
 
-  // const client = mqtt.connect('mqtt://test.mosquitto.org', options);
+  const options = {
+    clientId: 'dharmesh',
+    Username: 'cedalo',
+    Password: '0dfTYEF90nAd9kNK8IEr',
+  };
 
-  const client = mqtt.connect(options);
+  const client = mqtt.connect('mqtt://test.mosquitto.org', options);
+
+  // const client = mqtt.connect(options);
 
   client.on('connect', () => {
     console.log('Connection established successfully of MQTT!');
