@@ -1,4 +1,6 @@
-module.exports = (function () {
+"use strict";
+
+module.exports = function () {
   return {
     OK: 200,
     CREATED: 201,
@@ -7,6 +9,6 @@ module.exports = (function () {
     NOTFOUND: 404,
     UNAUTHORISED: 401,
     INTERNAL_SERVER_ERROR: 500,
-    ALREADY_EXIST: 409,
+    ALREADY_EXIST: 409
   };
-})();
+}();

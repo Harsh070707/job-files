@@ -47,3 +47,4 @@
 //     console.log('error ::', err);
 //   }
 // });
+"use strict";

@@ -126,18 +126,18 @@ module.exports.getIndividualData = async (req, res) => {
 
   const client = mqtt.connect('mqtt://test.mosquitto.org', options);
 
-  client.on('connect', () => {
-    console.log('Connection established successfully!');
-    client.subscribe('sensor/1');
-  });
+  // client.on('connect', () => {
+  //   console.log('Connection established successfully!');
+  //   client.subscribe('sensor/1');
+  // });
 
-  // client.on('close', () => {
-  //     console.log("connection closed");
-  // })
+  // // client.on('close', () => {
+  // //     console.log("connection closed");
+  // // })
 
-  client.on('error', (error) => {
-    console.log('error :-', error);
-  });
+  // client.on('error', (error) => {
+  //   console.log('error :-', error);
+  // });
 
   // const client = mqtt.connect(options);
 
@@ -156,7 +156,7 @@ module.exports.getIndividualData = async (req, res) => {
       });
 
       client.publish('sensor/1', obj);
-      // console.log(JSON.stringify(obj));
+      console.log(JSON.stringify(obj));
     }, 7000);
   });
 
