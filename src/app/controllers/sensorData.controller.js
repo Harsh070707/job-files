@@ -126,6 +126,19 @@ module.exports.getIndividualData = async (req, res) => {
 
   const client = mqtt.connect('mqtt://test.mosquitto.org', options);
 
+  client.on('connect', () => {
+    console.log('Connection established successfully!');
+    client.subscribe('sensor/1');
+  });
+
+  // client.on('close', () => {
+  //     console.log("connection closed");
+  // })
+
+  client.on('error', (error) => {
+    console.log('error :-', error);
+  });
+
   // const client = mqtt.connect(options);
 
   client.on('connect', () => {
@@ -133,8 +146,17 @@ module.exports.getIndividualData = async (req, res) => {
     setInterval(async function () {
       const data = await sensorDataModel.findOne({ userId: userId });
 
-      client.publish('sensor/1', JSON.stringify(data));
-      // console.log(JSON.stringify(data));
+      const obj = JSON.stringify({
+        sensorId: 1,
+        userId: data.userId,
+        location: data.location,
+        address: data.mobile,
+        userName: data.userName,
+        currentDate: data.currentDate,
+      });
+
+      client.publish('sensor/1', obj);
+      // console.log(JSON.stringify(obj));
     }, 7000);
   });
 
