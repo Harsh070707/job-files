@@ -118,13 +118,14 @@ module.exports.getIndividualData = async (req, res) => {
   //   password: 'spqJnmmbSUTPB4!',
   // };
 
-  const options = {
-    clientId: 'dharmesh',
-    Username: 'cedalo',
-    Password: '0dfTYEF90nAd9kNK8IEr',
-  };
+  // const options = {
+  //   clientId: 'dharmesh',
+  //   Username: 'cedalo',
+  //   Password: '0dfTYEF90nAd9kNK8IEr',
+  // };
 
-  const client = mqtt.connect('mqtt://test.mosquitto.org', options);
+  // const client = mqtt.connect('mqtt://test.mosquitto.org', options);
+  const client = mqtt.connect('mqtt://broker.hivemq.com');
 
   // client.on('connect', () => {
   //   console.log('Connection established successfully!');
@@ -155,8 +156,9 @@ module.exports.getIndividualData = async (req, res) => {
         currentDate: data.currentDate,
       });
 
+      console.log('obj ::::', obj);
       client.publish('sensor/1', obj);
-      console.log(JSON.stringify(obj));
+      console.log('Message Sent');
     }, 7000);
   });
 
