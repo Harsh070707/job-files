@@ -2,6 +2,9 @@ const sensorDataModel = require('../models/sensorData.model');
 
 const mqtt = require('mqtt');
 
+// Create a dictionary to store the interval IDs for each user
+const intervals = {};
+
 module.exports.getData = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -127,24 +130,9 @@ module.exports.getIndividualData = async (req, res) => {
   // const client = mqtt.connect('mqtt://test.mosquitto.org', options);
   const client = mqtt.connect('mqtt://broker.hivemq.com');
 
-  // client.on('connect', () => {
-  //   console.log('Connection established successfully!');
-  //   client.subscribe('sensor/1');
-  // });
-
-  // // client.on('close', () => {
-  // //     console.log("connection closed");
-  // // })
-
-  // client.on('error', (error) => {
-  //   console.log('error :-', error);
-  // });
-
-  // const client = mqtt.connect(options);
-
   client.on('connect', () => {
     console.log('Connection established successfully of MQTT!');
-    setInterval(async function () {
+    intervals[userId] = setInterval(async function () {
       const data = await sensorDataModel.findOne({ userId: userId });
 
       const obj = JSON.stringify({
@@ -157,7 +145,7 @@ module.exports.getIndividualData = async (req, res) => {
       });
 
       console.log('obj ::::', obj);
-      client.publish('sensor/1', obj);
+      client.publish('sensor/3', obj);
       console.log('Message Sent');
     }, 7000);
   });
@@ -166,4 +154,29 @@ module.exports.getIndividualData = async (req, res) => {
     console.error('MQTT connection error:', error);
     process.exit(1);
   });
+
+  // Send success response
+  res
+    .status(200)
+    .json({ message: 'MQTT updates started successfully for the user' });
+};
+
+// API endpoint to stop MQTT updates for a user
+module.exports.stopIndividualData = async (req, res) => {
+  const { userId } = req.body;
+
+  // Check if an interval is running for the user
+  if (!intervals[userId]) {
+    return res
+      .status(400)
+      .json({ message: 'No MQTT updates running for this user' });
+  }
+
+  // Clear the interval for the user and close the MQTT client
+  clearInterval(intervals[userId]);
+  delete intervals[userId];
+
+  res
+    .status(200)
+    .json({ message: 'MQTT updates stopped successfully for the user' });
 };
