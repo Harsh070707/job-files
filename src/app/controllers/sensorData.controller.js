@@ -145,7 +145,7 @@ module.exports.getIndividualData = async (req, res) => {
       });
 
       console.log('obj ::::', obj);
-      client.publish('sensor/3', obj);
+      client.publish('sensor/1', obj);
       console.log('Message Sent');
     }, 7000);
   });
